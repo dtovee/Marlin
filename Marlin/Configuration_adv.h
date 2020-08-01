@@ -634,7 +634,7 @@
 
 //#define HOMING_BACKOFF_POST_MM { 2, 2, 2 }  // (mm) Backoff from endstops after homing
 
-//#define QUICK_HOME                          // If G28 contains XY do a diagonal move first
+#define QUICK_HOME                          // If G28 contains XY do a diagonal move first
 //#define HOME_Y_BEFORE_X                     // If G28 contains XY home Y before X
 //#define CODEPENDENT_XY_HOMING               // If X/Y can't home without homing Y/X first
 
@@ -830,7 +830,7 @@
 // Increase the slowdown divisor for larger buffer sizes.
 #define SLOWDOWN
 #if ENABLED(SLOWDOWN)
-  #define SLOWDOWN_DIVISOR 2
+  #define SLOWDOWN_DIVISOR 8
 #endif
 
 /**
@@ -944,7 +944,7 @@
  * vibration and surface artifacts. The algorithm adapts to provide the best possible step smoothing at the
  * lowest stepping frequencies.
  */
-//#define ADAPTIVE_STEP_SMOOTHING
+// #define ADAPTIVE_STEP_SMOOTHING
 
 /**
  * Custom Microstepping
@@ -1019,7 +1019,7 @@
 // @section lcd
 
 #if EITHER(ULTIPANEL, EXTENSIBLE_UI)
-  #define MANUAL_FEEDRATE { 50*60, 50*60, 4*60, 60 } // Feedrates for manual moves along X, Y, Z, E from panel
+  #define MANUAL_FEEDRATE { 50*60, 50*60, 4*60, 2*60 } // Feedrates for manual moves along X, Y, Z, E from panel
   #define SHORT_MANUAL_Z_MOVE 0.025 // (mm) Smallest manual Z move (< 0.1mm)
   #if ENABLED(ULTIPANEL)
     #define MANUAL_E_MOVES_RELATIVE // Display extruder move distance rather than "position"
@@ -1091,11 +1091,11 @@
 #endif
 
 #if HAS_GRAPHICAL_LCD && EITHER(SDSUPPORT, LCD_SET_PROGRESS_MANUALLY)
-  //#define PRINT_PROGRESS_SHOW_DECIMALS // Show progress with decimal digits
-  //#define SHOW_REMAINING_TIME          // Display estimated time to completion
+  #define PRINT_PROGRESS_SHOW_DECIMALS // Show progress with decimal digits
+  #define SHOW_REMAINING_TIME          // Display estimated time to completion
   #if ENABLED(SHOW_REMAINING_TIME)
-    //#define USE_M73_REMAINING_TIME     // Use remaining time from M73 command instead of estimation
-    //#define ROTATE_PROGRESS_DISPLAY    // Display (P)rogress, (E)lapsed, and (R)emaining time
+    #define USE_M73_REMAINING_TIME     // Use remaining time from M73 command instead of estimation
+    #define ROTATE_PROGRESS_DISPLAY    // Display (P)rogress, (E)lapsed, and (R)emaining time
   #endif
 #endif
 
@@ -1287,8 +1287,8 @@
    *
    * :[ 'LCD', 'ONBOARD', 'CUSTOM_CABLE' ]
    */
-  //#define SDCARD_CONNECTION LCD
-
+  // #define SDCARD_CONNECTION LCD
+  #define SDCARD_CONNECTION ONBOARD
 #endif // SDSUPPORT
 
 /**
@@ -1369,7 +1369,7 @@
   //#define STATUS_ALT_BED_BITMAP     // Use the alternative bed bitmap
   //#define STATUS_ALT_FAN_BITMAP     // Use the alternative fan bitmap
   //#define STATUS_FAN_FRAMES 3       // :[0,1,2,3,4] Number of fan animation frames
-  //#define STATUS_HEAT_PERCENT       // Show heating in a progress bar
+  #define STATUS_HEAT_PERCENT       // Show heating in a progress bar
   //#define BOOT_MARLIN_LOGO_SMALL    // Show a smaller Marlin logo on the Boot Screen (saving 399 bytes of flash)
   //#define BOOT_MARLIN_LOGO_ANIMATED // Animated Marlin logo. Costs ~‭3260 (or ~940) bytes of PROGMEM.
 
@@ -2039,8 +2039,8 @@
  */
 #define ADVANCED_PAUSE_FEATURE
 #if ENABLED(ADVANCED_PAUSE_FEATURE)
-  #define PAUSE_PARK_RETRACT_FEEDRATE         100  // (mm/s) Initial retract feedrate.
-  #define PAUSE_PARK_RETRACT_LENGTH            2  // (mm) Initial retract.
+  #define PAUSE_PARK_RETRACT_FEEDRATE         30  // (mm/s) Initial retract feedrate.
+  #define PAUSE_PARK_RETRACT_LENGTH            6  // (mm) Initial retract.
                                                   // This short retract is done immediately, before parking the nozzle.
   #define FILAMENT_CHANGE_UNLOAD_FEEDRATE     50  // (mm/s) Unload filament feedrate. This can be pretty fast.
   #define FILAMENT_CHANGE_UNLOAD_ACCEL        25  // (mm/s^2) Lower acceleration may allow a faster feedrate.
@@ -2214,7 +2214,7 @@
   #define INTERPOLATE       true  // Interpolate X/Y/Z_MICROSTEPS to 256
 
   #if AXIS_IS_TMC(X)
-    #define X_CURRENT       800        // (mA) RMS current. Multiply by 1.414 for peak current.
+    #define X_CURRENT       580        // (mA) RMS current. Multiply by 1.414 for peak current.
     #define X_CURRENT_HOME  X_CURRENT  // (mA) RMS current for sensorless homing
     #define X_MICROSTEPS     16    // 0..256
     #define X_RSENSE          0.11
@@ -2230,140 +2230,140 @@
   #endif
 
   #if AXIS_IS_TMC(Y)
-    #define Y_CURRENT       800
-    #define Y_CURRENT_HOME  Y_CURRENT
-    #define Y_MICROSTEPS     16
-    #define Y_RSENSE          0.11
-    #define Y_CHAIN_POS      -1
-  #endif
+#define Y_CURRENT 580
+#define Y_CURRENT_HOME Y_CURRENT
+#define Y_MICROSTEPS 16
+#define Y_RSENSE 0.11
+#define Y_CHAIN_POS -1
+#endif
 
-  #if AXIS_IS_TMC(Y2)
-    #define Y2_CURRENT      800
-    #define Y2_CURRENT_HOME Y2_CURRENT
-    #define Y2_MICROSTEPS    16
-    #define Y2_RSENSE         0.11
-    #define Y2_CHAIN_POS     -1
-  #endif
+#if AXIS_IS_TMC(Y2)
+#define Y2_CURRENT 800
+#define Y2_CURRENT_HOME Y2_CURRENT
+#define Y2_MICROSTEPS 16
+#define Y2_RSENSE 0.11
+#define Y2_CHAIN_POS -1
+#endif
 
-  #if AXIS_IS_TMC(Z)
-    #define Z_CURRENT       800
-    #define Z_CURRENT_HOME  Z_CURRENT
-    #define Z_MICROSTEPS     16
-    #define Z_RSENSE          0.11
-    #define Z_CHAIN_POS      -1
-  #endif
+#if AXIS_IS_TMC(Z)
+#define Z_CURRENT 580
+#define Z_CURRENT_HOME Z_CURRENT
+#define Z_MICROSTEPS 16
+#define Z_RSENSE 0.11
+#define Z_CHAIN_POS -1
+#endif
 
-  #if AXIS_IS_TMC(Z2)
-    #define Z2_CURRENT      800
-    #define Z2_CURRENT_HOME Z2_CURRENT
-    #define Z2_MICROSTEPS    16
-    #define Z2_RSENSE         0.11
-    #define Z2_CHAIN_POS     -1
-  #endif
+#if AXIS_IS_TMC(Z2)
+#define Z2_CURRENT 800
+#define Z2_CURRENT_HOME Z2_CURRENT
+#define Z2_MICROSTEPS 16
+#define Z2_RSENSE 0.11
+#define Z2_CHAIN_POS -1
+#endif
 
-  #if AXIS_IS_TMC(Z3)
-    #define Z3_CURRENT      800
-    #define Z3_CURRENT_HOME Z3_CURRENT
-    #define Z3_MICROSTEPS    16
-    #define Z3_RSENSE         0.11
-    #define Z3_CHAIN_POS     -1
-  #endif
+#if AXIS_IS_TMC(Z3)
+#define Z3_CURRENT 800
+#define Z3_CURRENT_HOME Z3_CURRENT
+#define Z3_MICROSTEPS 16
+#define Z3_RSENSE 0.11
+#define Z3_CHAIN_POS -1
+#endif
 
-  #if AXIS_IS_TMC(Z4)
-    #define Z4_CURRENT      800
-    #define Z4_CURRENT_HOME Z4_CURRENT
-    #define Z4_MICROSTEPS    16
-    #define Z4_RSENSE         0.11
-    #define Z4_CHAIN_POS     -1
-  #endif
+#if AXIS_IS_TMC(Z4)
+#define Z4_CURRENT 800
+#define Z4_CURRENT_HOME Z4_CURRENT
+#define Z4_MICROSTEPS 16
+#define Z4_RSENSE 0.11
+#define Z4_CHAIN_POS -1
+#endif
 
-  #if AXIS_IS_TMC(E0)
-    #define E0_CURRENT      800
-    #define E0_MICROSTEPS    16
-    #define E0_RSENSE         0.11
-    #define E0_CHAIN_POS     -1
-  #endif
+#if AXIS_IS_TMC(E0)
+#define E0_CURRENT 580
+#define E0_MICROSTEPS 16
+#define E0_RSENSE 0.11
+#define E0_CHAIN_POS -1
+#endif
 
-  #if AXIS_IS_TMC(E1)
-    #define E1_CURRENT      800
-    #define E1_MICROSTEPS    16
-    #define E1_RSENSE         0.11
-    #define E1_CHAIN_POS     -1
-  #endif
+#if AXIS_IS_TMC(E1)
+#define E1_CURRENT 800
+#define E1_MICROSTEPS 16
+#define E1_RSENSE 0.11
+#define E1_CHAIN_POS -1
+#endif
 
-  #if AXIS_IS_TMC(E2)
-    #define E2_CURRENT      800
-    #define E2_MICROSTEPS    16
-    #define E2_RSENSE         0.11
-    #define E2_CHAIN_POS     -1
-  #endif
+#if AXIS_IS_TMC(E2)
+#define E2_CURRENT 800
+#define E2_MICROSTEPS 16
+#define E2_RSENSE 0.11
+#define E2_CHAIN_POS -1
+#endif
 
-  #if AXIS_IS_TMC(E3)
-    #define E3_CURRENT      800
-    #define E3_MICROSTEPS    16
-    #define E3_RSENSE         0.11
-    #define E3_CHAIN_POS     -1
-  #endif
+#if AXIS_IS_TMC(E3)
+#define E3_CURRENT 800
+#define E3_MICROSTEPS 16
+#define E3_RSENSE 0.11
+#define E3_CHAIN_POS -1
+#endif
 
-  #if AXIS_IS_TMC(E4)
-    #define E4_CURRENT      800
-    #define E4_MICROSTEPS    16
-    #define E4_RSENSE         0.11
-    #define E4_CHAIN_POS     -1
-  #endif
+#if AXIS_IS_TMC(E4)
+#define E4_CURRENT 800
+#define E4_MICROSTEPS 16
+#define E4_RSENSE 0.11
+#define E4_CHAIN_POS -1
+#endif
 
-  #if AXIS_IS_TMC(E5)
-    #define E5_CURRENT      800
-    #define E5_MICROSTEPS    16
-    #define E5_RSENSE         0.11
-    #define E5_CHAIN_POS     -1
-  #endif
+#if AXIS_IS_TMC(E5)
+#define E5_CURRENT 800
+#define E5_MICROSTEPS 16
+#define E5_RSENSE 0.11
+#define E5_CHAIN_POS -1
+#endif
 
-  #if AXIS_IS_TMC(E6)
-    #define E6_CURRENT      800
-    #define E6_MICROSTEPS    16
-    #define E6_RSENSE         0.11
-    #define E6_CHAIN_POS     -1
-  #endif
+#if AXIS_IS_TMC(E6)
+#define E6_CURRENT 800
+#define E6_MICROSTEPS 16
+#define E6_RSENSE 0.11
+#define E6_CHAIN_POS -1
+#endif
 
-  #if AXIS_IS_TMC(E7)
-    #define E7_CURRENT      800
-    #define E7_MICROSTEPS    16
-    #define E7_RSENSE         0.11
-    #define E7_CHAIN_POS     -1
-  #endif
+#if AXIS_IS_TMC(E7)
+#define E7_CURRENT 800
+#define E7_MICROSTEPS 16
+#define E7_RSENSE 0.11
+#define E7_CHAIN_POS -1
+#endif
 
-  /**
+/**
    * Override default SPI pins for TMC2130, TMC2160, TMC2660, TMC5130 and TMC5160 drivers here.
    * The default pins can be found in your board's pins file.
    */
-  //#define X_CS_PIN          -1
-  //#define Y_CS_PIN          -1
-  //#define Z_CS_PIN          -1
-  //#define X2_CS_PIN         -1
-  //#define Y2_CS_PIN         -1
-  //#define Z2_CS_PIN         -1
-  //#define Z3_CS_PIN         -1
-  //#define E0_CS_PIN         -1
-  //#define E1_CS_PIN         -1
-  //#define E2_CS_PIN         -1
-  //#define E3_CS_PIN         -1
-  //#define E4_CS_PIN         -1
-  //#define E5_CS_PIN         -1
-  //#define E6_CS_PIN         -1
-  //#define E7_CS_PIN         -1
+//#define X_CS_PIN          -1
+//#define Y_CS_PIN          -1
+//#define Z_CS_PIN          -1
+//#define X2_CS_PIN         -1
+//#define Y2_CS_PIN         -1
+//#define Z2_CS_PIN         -1
+//#define Z3_CS_PIN         -1
+//#define E0_CS_PIN         -1
+//#define E1_CS_PIN         -1
+//#define E2_CS_PIN         -1
+//#define E3_CS_PIN         -1
+//#define E4_CS_PIN         -1
+//#define E5_CS_PIN         -1
+//#define E6_CS_PIN         -1
+//#define E7_CS_PIN         -1
 
-  /**
+/**
    * Software option for SPI driven drivers (TMC2130, TMC2160, TMC2660, TMC5130 and TMC5160).
    * The default SW SPI pins are defined the respective pins files,
    * but you can override or define them here.
    */
-  //#define TMC_USE_SW_SPI
-  //#define TMC_SW_MOSI       -1
-  //#define TMC_SW_MISO       -1
-  //#define TMC_SW_SCK        -1
+//#define TMC_USE_SW_SPI
+//#define TMC_SW_MOSI       -1
+//#define TMC_SW_MISO       -1
+//#define TMC_SW_SCK        -1
 
-  /**
+/**
    * Four TMC2209 drivers can use the same HW/SW serial port with hardware configured addresses.
    * Set the address using jumpers on pins MS1 and MS2.
    * Address | MS1  | MS2
@@ -2375,41 +2375,41 @@
    * Set *_SERIAL_TX_PIN and *_SERIAL_RX_PIN to match for all drivers
    * on the same serial port, either here or in your board's pins file.
    */
-  #define  X_SLAVE_ADDRESS 0
-  #define  Y_SLAVE_ADDRESS 0
-  #define  Z_SLAVE_ADDRESS 0
-  #define X2_SLAVE_ADDRESS 0
-  #define Y2_SLAVE_ADDRESS 0
-  #define Z2_SLAVE_ADDRESS 0
-  #define Z3_SLAVE_ADDRESS 0
-  #define Z4_SLAVE_ADDRESS 0
-  #define E0_SLAVE_ADDRESS 0
-  #define E1_SLAVE_ADDRESS 0
-  #define E2_SLAVE_ADDRESS 0
-  #define E3_SLAVE_ADDRESS 0
-  #define E4_SLAVE_ADDRESS 0
-  #define E5_SLAVE_ADDRESS 0
-  #define E6_SLAVE_ADDRESS 0
-  #define E7_SLAVE_ADDRESS 0
+#define X_SLAVE_ADDRESS 0
+#define Y_SLAVE_ADDRESS 0
+#define Z_SLAVE_ADDRESS 0
+#define X2_SLAVE_ADDRESS 0
+#define Y2_SLAVE_ADDRESS 0
+#define Z2_SLAVE_ADDRESS 0
+#define Z3_SLAVE_ADDRESS 0
+#define Z4_SLAVE_ADDRESS 0
+#define E0_SLAVE_ADDRESS 0
+#define E1_SLAVE_ADDRESS 0
+#define E2_SLAVE_ADDRESS 0
+#define E3_SLAVE_ADDRESS 0
+#define E4_SLAVE_ADDRESS 0
+#define E5_SLAVE_ADDRESS 0
+#define E6_SLAVE_ADDRESS 0
+#define E7_SLAVE_ADDRESS 0
 
-  /**
+/**
    * Software enable
    *
    * Use for drivers that do not use a dedicated enable pin, but rather handle the same
    * function through a communication line such as SPI or UART.
    */
-  //#define SOFTWARE_DRIVER_ENABLE
+//#define SOFTWARE_DRIVER_ENABLE
 
-  /**
+/**
    * TMC2130, TMC2160, TMC2208, TMC2209, TMC5130 and TMC5160 only
    * Use Trinamic's ultra quiet stepping mode.
    * When disabled, Marlin will use spreadCycle stepping mode.
    */
-  #define STEALTHCHOP_XY
-  #define STEALTHCHOP_Z
-  #define STEALTHCHOP_E
+#define STEALTHCHOP_XY
+#define STEALTHCHOP_Z
+#define STEALTHCHOP_E
 
-  /**
+/**
    * Optimize spreadCycle chopper parameters by using predefined parameter sets
    * or with the help of an example included in the library.
    * Provided parameter sets are
@@ -2424,9 +2424,9 @@
    * Define you own with
    * { <off_time[1..15]>, <hysteresis_end[-3..12]>, hysteresis_start[1..8] }
    */
-  #define CHOPPER_TIMING CHOPPER_DEFAULT_24V
+#define CHOPPER_TIMING CHOPPER_DEFAULT_24V
 
-  /**
+/**
    * Monitor Trinamic drivers
    * for error conditions like overtemperature and short to ground.
    * To manage over-temp Marlin can decrease the driver current until the error condition clears.
@@ -2437,41 +2437,41 @@
    * M912 - Clear stepper driver overtemperature pre-warn condition flag.
    * M122 - Report driver parameters (Requires TMC_DEBUG)
    */
-  //#define MONITOR_DRIVER_STATUS
+#define MONITOR_DRIVER_STATUS
 
-  #if ENABLED(MONITOR_DRIVER_STATUS)
-    #define CURRENT_STEP_DOWN     50  // [mA]
-    #define REPORT_CURRENT_CHANGE
-    #define STOP_ON_ERROR
-  #endif
+#if ENABLED(MONITOR_DRIVER_STATUS)
+#define CURRENT_STEP_DOWN 50 // [mA]
+#define REPORT_CURRENT_CHANGE
+#define STOP_ON_ERROR
+#endif
 
-  /**
+/**
    * TMC2130, TMC2160, TMC2208, TMC2209, TMC5130 and TMC5160 only
    * The driver will switch to spreadCycle when stepper speed is over HYBRID_THRESHOLD.
    * This mode allows for faster movements at the expense of higher noise levels.
    * STEALTHCHOP_(XY|Z|E) must be enabled to use HYBRID_THRESHOLD.
    * M913 X/Y/Z/E to live tune the setting
    */
-  //#define HYBRID_THRESHOLD
+//#define HYBRID_THRESHOLD
 
-  #define X_HYBRID_THRESHOLD     100  // [mm/s]
-  #define X2_HYBRID_THRESHOLD    100
-  #define Y_HYBRID_THRESHOLD     100
-  #define Y2_HYBRID_THRESHOLD    100
-  #define Z_HYBRID_THRESHOLD       3
-  #define Z2_HYBRID_THRESHOLD      3
-  #define Z3_HYBRID_THRESHOLD      3
-  #define Z4_HYBRID_THRESHOLD      3
-  #define E0_HYBRID_THRESHOLD     30
-  #define E1_HYBRID_THRESHOLD     30
-  #define E2_HYBRID_THRESHOLD     30
-  #define E3_HYBRID_THRESHOLD     30
-  #define E4_HYBRID_THRESHOLD     30
-  #define E5_HYBRID_THRESHOLD     30
-  #define E6_HYBRID_THRESHOLD     30
-  #define E7_HYBRID_THRESHOLD     30
+#define X_HYBRID_THRESHOLD 100 // [mm/s]
+#define X2_HYBRID_THRESHOLD 100
+#define Y_HYBRID_THRESHOLD 100
+#define Y2_HYBRID_THRESHOLD 100
+#define Z_HYBRID_THRESHOLD 3
+#define Z2_HYBRID_THRESHOLD 3
+#define Z3_HYBRID_THRESHOLD 3
+#define Z4_HYBRID_THRESHOLD 3
+#define E0_HYBRID_THRESHOLD 30
+#define E1_HYBRID_THRESHOLD 30
+#define E2_HYBRID_THRESHOLD 30
+#define E3_HYBRID_THRESHOLD 30
+#define E4_HYBRID_THRESHOLD 30
+#define E5_HYBRID_THRESHOLD 30
+#define E6_HYBRID_THRESHOLD 30
+#define E7_HYBRID_THRESHOLD 30
 
-  /**
+/**
    * Use StallGuard2 to home / probe X, Y, Z.
    *
    * TMC2130, TMC2160, TMC2209, TMC2660, TMC5130, and TMC5160 only
@@ -2494,23 +2494,23 @@
    * IMPROVE_HOMING_RELIABILITY tunes acceleration and jerk when
    * homing and adds a guard period for endstop triggering.
    */
-  //#define SENSORLESS_HOMING // StallGuard capable drivers only
+//#define SENSORLESS_HOMING // StallGuard capable drivers only
 
-  #if EITHER(SENSORLESS_HOMING, SENSORLESS_PROBING)
-    // TMC2209: 0...255. TMC2130: -64...63
-    #define X_STALL_SENSITIVITY  8
-    #define X2_STALL_SENSITIVITY X_STALL_SENSITIVITY
-    #define Y_STALL_SENSITIVITY  8
-    #define Y2_STALL_SENSITIVITY Y_STALL_SENSITIVITY
-    //#define Z_STALL_SENSITIVITY  8
-    //#define Z2_STALL_SENSITIVITY Z_STALL_SENSITIVITY
-    //#define Z3_STALL_SENSITIVITY Z_STALL_SENSITIVITY
-    //#define Z4_STALL_SENSITIVITY Z_STALL_SENSITIVITY
-    //#define SPI_ENDSTOPS              // TMC2130 only
-    //#define IMPROVE_HOMING_RELIABILITY
-  #endif
+#if EITHER(SENSORLESS_HOMING, SENSORLESS_PROBING)
+// TMC2209: 0...255. TMC2130: -64...63
+#define X_STALL_SENSITIVITY 8
+#define X2_STALL_SENSITIVITY X_STALL_SENSITIVITY
+#define Y_STALL_SENSITIVITY 8
+#define Y2_STALL_SENSITIVITY Y_STALL_SENSITIVITY
+//#define Z_STALL_SENSITIVITY  8
+//#define Z2_STALL_SENSITIVITY Z_STALL_SENSITIVITY
+//#define Z3_STALL_SENSITIVITY Z_STALL_SENSITIVITY
+//#define Z4_STALL_SENSITIVITY Z_STALL_SENSITIVITY
+//#define SPI_ENDSTOPS              // TMC2130 only
+//#define IMPROVE_HOMING_RELIABILITY
+#endif
 
-  /**
+/**
    * TMC Homing stepper phase.
    *
    * Improve homing repeatability by homing to stepper coil's nearest absolute
@@ -2520,21 +2520,21 @@
    *
    * Values from 0..1023, -1 to disable homing phase for that axis.
    */
-   //#define TMC_HOME_PHASE { 896, 896, 896 }
+//#define TMC_HOME_PHASE { 896, 896, 896 }
 
-  /**
+/**
    * Beta feature!
    * Create a 50/50 square wave step pulse optimal for stepper drivers.
    */
-  #define SQUARE_WAVE_STEPPING
+#define SQUARE_WAVE_STEPPING
 
-  /**
+/**
    * Enable M122 debugging command for TMC stepper drivers.
    * M122 S0/1 will enable continous reporting.
    */
-  //#define TMC_DEBUG
+//#define TMC_DEBUG
 
-  /**
+/**
    * You can set your own advanced settings by filling in predefined functions.
    * A list of available functions can be found on the library github page
    * https://github.com/teemuatlut/TMCStepper
@@ -2545,7 +2545,9 @@
    *   stepperY.intpol(0); \
    * }
    */
-  #define TMC_ADV() {  }
+#define TMC_ADV() \
+  {               \
+  }
 
 #endif // HAS_TRINAMIC_CONFIG
 
@@ -3219,7 +3221,7 @@
  *
  * Implement M486 to allow Marlin to skip objects
  */
-//#define CANCEL_OBJECTS
+#define CANCEL_OBJECTS
 
 /**
  * I2C position encoders for closed loop control.
