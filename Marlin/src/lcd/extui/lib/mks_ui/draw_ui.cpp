@@ -27,7 +27,6 @@
   #include "SPI_TFT.h"
 #endif
 
-#include "W25Qxx.h"
 #include "tft_lvgl_configuration.h"
 
 #include "pic_manager.h"
@@ -50,6 +49,7 @@
   #include "../../../../feature/pause.h"
 #endif
 
+W25QXXFlash W25QXX;
 CFG_ITMES gCfgItems;
 UI_CFG uiCfg;
 DISP_STATE_STACK disp_state_stack;
@@ -126,6 +126,13 @@ void gCfgItems_init() {
     W25QXX.SPI_FLASH_SectorErase(VAR_INF_ADDR);
     W25QXX.SPI_FLASH_BufferWrite((uint8_t *)&gCfgItems, VAR_INF_ADDR, sizeof(gCfgItems));
   }
+
+  uiCfg.F[0] = 'N';
+  uiCfg.F[1] = 'A';
+  uiCfg.F[2] = 'N';
+  uiCfg.F[3] = 'O';
+  W25QXX.SPI_FLASH_BlockErase(REFLSHE_FLGA_ADD + 32 - 64*1024);
+  W25QXX.SPI_FLASH_BufferWrite(uiCfg.F,REFLSHE_FLGA_ADD,4);
 }
 
 void gCfg_to_spiFlah() {
