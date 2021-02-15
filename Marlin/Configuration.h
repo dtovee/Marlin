@@ -491,13 +491,16 @@
   #if ENABLED(PID_PARAMS_PER_HOTEND)
     // Specify between 1 and HOTENDS values per array.
     // If fewer than EXTRUDER values are provided, the last element will be repeated.
-    #define DEFAULT_Kp_LIST {  21.73,  21.73 }
-    #define DEFAULT_Ki_LIST {   1.54,   1.54 }
-    #define DEFAULT_Kd_LIST {  76.55,  76.55 }
+    #define DEFAULT_Kp_LIST {  29.10,  21.73 }
+    #define DEFAULT_Ki_LIST {   2.98,   1.54 }
+    #define DEFAULT_Kd_LIST {  71.17,  76.55 }
   #else
-    #define DEFAULT_Kp 31.34
-    #define DEFAULT_Ki 3.37
-    #define DEFAULT_Kd 72.85
+    // #define DEFAULT_Kp 31.34
+    // #define DEFAULT_Ki 3.37
+    // #define DEFAULT_Kd 72.85
+    #define DEFAULT_Kp 29.10
+    #define DEFAULT_Ki 2.98
+    #define DEFAULT_Kd 71.17
 #endif
 #endif // PIDTEMP
 
@@ -507,7 +510,9 @@
 
 /**
  * PID Bed Heating
- *
+ *Recv: #define DEFAULT_bedKp 111.90
+Recv: #define DEFAULT_bedKi 21.47
+Recv: #define DEFAULT_bedKd 388.78
  * If this option is enabled set PID constants below.
  * If this option is disabled, bang-bang will be used and BED_LIMIT_SWITCHING will enable hysteresis.
  *
@@ -533,10 +538,12 @@
 #if ENABLED(PIDTEMPBED)
   //#define MIN_BED_POWER 0
   //#define PID_BED_DEBUG // Sends debug data to the serial port.
-
-#define DEFAULT_bedKp 85.96
-#define DEFAULT_bedKi 14.69
-#define DEFAULT_bedKd 335.33
+    #define DEFAULT_bedKp 111.90
+    #define DEFAULT_bedKi 21.47
+    #define DEFAULT_bedKd 388.78
+// #define DEFAULT_bedKp 85.96
+// #define DEFAULT_bedKi 14.69
+// #define DEFAULT_bedKd 335.33
 
 // FIND YOUR OWN: "M303 E-1 C8 S90" to run autotune on the bed at 90 degreesC for 8 cycles.
 #endif // PIDTEMPBED
@@ -737,7 +744,7 @@
  * Override with M92
  *                                      X, Y, Z, E0 [, E1[, E2...]]
  */
-#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 139.17 }
+#define DEFAULT_AXIS_STEPS_PER_UNIT   { 80, 80, 400, 143.62 }
 
 /**
  * Default Max Feed Rate (mm/s)
@@ -772,9 +779,9 @@
  *   M204 R    Retract Acceleration
  *   M204 T    Travel Acceleration
  */
-#define DEFAULT_ACCELERATION          500    // X, Y, Z and E acceleration for printing moves
-#define DEFAULT_RETRACT_ACCELERATION  500    // E acceleration for retracts
-#define DEFAULT_TRAVEL_ACCELERATION   500    // X, Y, Z acceleration for travel (non printing) moves
+#define DEFAULT_ACCELERATION          600    // X, Y, Z and E acceleration for printing moves
+#define DEFAULT_RETRACT_ACCELERATION  600    // E acceleration for retracts
+#define DEFAULT_TRAVEL_ACCELERATION   600    // X, Y, Z acceleration for travel (non printing) moves
 
 /**
  * Default Jerk limits (mm/s)
@@ -808,7 +815,7 @@
  *   https://blog.kyneticcnc.com/2018/10/computing-junction-deviation-for-marlin.html
  */
 #if DISABLED(CLASSIC_JERK)
-  #define JUNCTION_DEVIATION_MM 0.08  // (mm) Distance from real junction edge
+  #define JUNCTION_DEVIATION_MM 0.06  // (mm) Distance from real junction edge
   #define JD_HANDLE_SMALL_SEGMENTS    // Use curvature estimation instead of just the junction angle
                                       // for small segments (< 1mm) with large junction angles (> 135°).
 #endif
@@ -837,10 +844,10 @@
  * The probe replaces the Z-MIN endstop and is used for Z homing.
  * (Automatically enables USE_PROBE_FOR_Z_HOMING.)
  */
-#define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
+// #define Z_MIN_PROBE_USES_Z_MIN_ENDSTOP_PIN
 
 // Force the use of the probe for Z-axis homing
-//#define USE_PROBE_FOR_Z_HOMING
+#define USE_PROBE_FOR_Z_HOMING
 
 /**
  * Z_MIN_PROBE_PIN
@@ -857,7 +864,7 @@
  *      - normally-closed switches to GND and D32.
  *      - normally-open switches to 5V and D32.
  */
-//#define Z_MIN_PROBE_PIN 32 // Pin 32 is the RAMPS default
+#define Z_MIN_PROBE_PIN PC14 // Pin 32 is the RAMPS default
 
 /**
  * Probe Type
@@ -1350,7 +1357,7 @@
   // The height can be set with M420 Z<height>
   #define ENABLE_LEVELING_FADE_HEIGHT
   #if ENABLED(ENABLE_LEVELING_FADE_HEIGHT)
-    #define DEFAULT_LEVELING_FADE_HEIGHT 10.0 // (mm) Default fade height.
+    #define DEFAULT_LEVELING_FADE_HEIGHT 20.0 // (mm) Default fade height.
   #endif
 
   // For Cartesian machines, instead of dividing moves on mesh boundaries,
